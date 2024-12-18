@@ -19,6 +19,16 @@ class LinkedList:
             current.next = node
             self.size+=1
 
+    def create_cycle(self, position:int):
+        current = tail = self.head
+        index = 0
+        while tail.next:
+            tail = tail.next # tail is last
+        while index < position:
+            index+=1
+            current = current.next
+        tail.next = current    
+
     def display_cycle(self, limit:int):
         print("---display_cycle---")
         # limit = limit if limit is not None else self.size
@@ -29,15 +39,35 @@ class LinkedList:
             print(current.data)
             current = current.next
 
-    def create_cycle(self, position:int):
-        current = tail = self.head
-        index = 0
+    # Floyd's Cycle Detection Algorithm
+    # Also known as Tortoise and Hare Algorithm
+        # is an efficient approach to detect a cycle in a linked list
+    def detect_cycle_link_list(self):
+        slow = self.head
+        fast = self.head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if slow == fast:
+                print("list is a cyclic")
+                return True
+        print("No Cycle")
+        return False
+    
+    def create_circular_link_list(self):
+        tail = self.head
         while tail.next:
-            tail = tail.next # tail is last
-        while index < position:
+            tail = tail.next
+        tail.next = self.head
+    def display_circular_link_list(self, limit:int):
+        index = 0
+        current = self.head
+        while index < limit:
             index+=1
+            print(current.data)
             current = current.next
-        tail.next = current    
+
+
 
     def delete(self, index):
         if index < 0 or index >= self.size or not self.head:
@@ -72,8 +102,12 @@ list.insertion(35)
 
 list.display()
 
-list.create_cycle(2)
-list.display_cycle(20)
+# list.create_cycle(2)
+# list.display_cycle(20)
+list.detect_cycle_link_list();
+
+# list.create_circular_link_list()
+# list.display_circular_link_list(20)
 
 # list.delete(4)
 # list.display()
